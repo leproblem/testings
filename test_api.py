@@ -9,11 +9,12 @@ def get_api_key(email: str, passwd: str):
     status = res.status_code
     try:
         result = res.json()
-    except:
-        json.decoder.JSONDecodeError: result = res.text
+    except json.decoder.JSONDecodeError:
+        result = res.text
     return status, result
 #print(get_api_key('nikita.krgs@gmail.com','ebbvk-y61jwq'))
 
+#---------------POST-------------------
 
 def get_pet_list(key: str, filter: str):
     headers = {'auth_key': key}
@@ -22,8 +23,8 @@ def get_pet_list(key: str, filter: str):
     status = res.status_code
     try:
         result = res.json()
-    except:
-        json.decoder.JSONDecodeError: result = res.text
+    except json.decoder.JSONDecodeError: 
+        result = res.text
     return status, result
 print(get_pet_list(keykekw,'my_pets'))
 
@@ -34,20 +35,36 @@ def pet_add(key: str, name: str, animal_type: str, age: int):
     status = res.status_code
     try:
         result = res.json()
-    except:
-        json.decoder.JSONDecodeError: result = res.text
+    except json.decoder.JSONDecodeError:
+        result = res.text
     return status, result
 
-#print(pet_add(keykekw,'pepega', 'juicer', 0))
-#print(get_pet_list(keykekw,'my_pets'))
+#   
 
-def pet_add(key: str, name: str, animal_type: str, age: int):
+#---------------PUT------------
+
+def pet_add(key: str, pet_id:str, name: str, animal_type: str, age: int):
     headers = {'auth_key': key}
     data = {'name' : name, 'animal_type': animal_type, 'age': age}
-    res = requests.put('https://petfriends1.herokuapp.com/api/${pet_id}', headers=headers, data=data)
+    res = requests.put('https://petfriends1.herokuapp.com/api/' + pet_id, headers=headers, data=data)
     status = res.status_code
     try:
         result = res.json()
-    except:
-        json.decoder.JSONDecodeError: result = res.text
+    except json.decoder.JSONDecodeError:
+        result = res.text
     return status, result
+
+#--------------------DELETE-------------------------------
+
+def pet_del(key: str, pet_id: str):
+    headers = {'auth_key': key}
+    res = requests.delete('https://petfriends1.herokuapp.com/api/pets/' + pet_id, headers=headers)
+    status = res.status_code
+    try:
+        result = res.json()
+    except json.decoder.JSONDecodeError:
+        result = res.text
+    return status, result
+
+print(pet_del(keykekw,'49b04274-0d02-4115-9f95-ecd9582f6fe0'))
+print(get_pet_list(keykekw,'my_pets'))
